@@ -32,6 +32,17 @@ class MemberSerializer(serializers.ModelSerializer):
         model = Member
         fields = ['id', 'user', 'user_id', 'membership_date']
 
+class TopMemberSerializer(MemberSerializer):
+    loans = serializers.IntegerField()
+    username = serializers.SerializerMethodField()
+
+    def get_username(self, obj):
+        return obj.member.user.username
+
+    class Meta:
+        model = Member
+        fields = ['id', 'user', 'user_id', 'membership_date', "loans"]
+
 class LoanSerializer(serializers.ModelSerializer):
     book = BookSerializer(read_only=True)
     book_id = serializers.PrimaryKeyRelatedField(

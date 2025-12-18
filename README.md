@@ -78,9 +78,9 @@ This command will:
 ### 5️⃣ **Initialize the Django Project**
 Apply migrations and create a superuser:
 ```sh
-docker-compose run web python manage.py makemigrations
-docker-compose run web python manage.py migrate
-docker-compose run web python manage.py createsuperuser
+docker-compose run --rm web python manage.py makemigrations
+docker-compose run --rm web python manage.py migrate
+docker-compose run --rm web python manage.py createsuperuser
 ```
 Follow the prompts to create a superuser account.
 
