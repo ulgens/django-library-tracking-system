@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 import rest_framework.serializers
-from django.db.models import Count, OuterRef
+from django.db.models import Count, OuterRef, Subquery, fields, IntegerField
 from rest_framework import viewsets, status, serializers
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.response import Response
@@ -70,7 +70,7 @@ class MemberViewSet(viewsets.ModelViewSet):
         loans = Loan.objects.filter(is_returned=False, member=OuterRef("pk"))
 
         members = Member.objects.all().annotate(
-            loan_count=Count(loans),
+            loan_count=Subquery(loans), output_field=IntegerField(),
         )[:5]
 
         data = serializer(members, many=True).data
